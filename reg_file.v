@@ -7,7 +7,7 @@ module regfile(input clk,
 
   reg [31:0] rf[31:0];
 
-  //TODO: Synchronous reset
+  //[TODO:] Synchronous reset
 
   always @(posedge clk) begin
     if (write) rf[wr] <= wd;

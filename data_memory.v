@@ -1,4 +1,4 @@
-module dmem(input clk, write,
+module data_memory(input clk, write,
             input [31:0] address, write_data,
             output [31:0] read_data);
 
