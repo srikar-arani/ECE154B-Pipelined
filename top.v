@@ -1,5 +1,13 @@
-//[TODO:] Not Sure 
+//[TODO:] Not Sure what else is needed
 
+
+/*************************************
+These are the basic elements of the
+circuit. They are to be added to the
+datapath
+*************************************/
+
+//ADDER
 module adder(input [31:0] a, b,
 	     output [31:0] y);
 
@@ -7,6 +15,7 @@ module adder(input [31:0] a, b,
 
 endmodule
 
+//LEFT SHIFT BY 2 (Multiply by 4)
 module sl2(input [31:0] a,
 	   output [31:0] y);
 
@@ -14,6 +23,7 @@ module sl2(input [31:0] a,
 
 endmodule
 
+//SIGN EXTENDER
 module signext(input [15:0] a,
 	       output [31:0] y);
 
@@ -21,6 +31,7 @@ module signext(input [15:0] a,
 
 endmodule
 
+//ZERO EXTENDER
 module zeroext(input [15:0] a,
 	       output [31:0] y);
 
@@ -28,6 +39,7 @@ module zeroext(input [15:0] a,
 
 endmodule
 
+//RESETABLE FLIP FLOP
 module flopr #(parameter WIDTH = 8)
 	      (input clk, reset,
 	       input [WIDTH-1:0] d,
@@ -41,6 +53,7 @@ module flopr #(parameter WIDTH = 8)
 
 endmodule
 
+//2:1 MULTIPLEXER
 module mux2 #(parameter WIDTH = 8)
 	     (input [WIDTH-1:0] d0, d1,
 	      input s,

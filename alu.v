@@ -1,13 +1,13 @@
 module ALU (input [31:0] In1, In2,
 	    input [3:0] Func,
 	    output reg [31:0] ALUout);
-
-  wire [31:0] B;
-  wire [31:0] S;
-  wire cout;
   
-  assign B = (Func[3]) ? ~In2 : In2;
-  assign {cout, S} = Func[3] + In1 + B;
+  wire [31:0] B; // Second ALU src
+  wire [31:0] S; // Sum / Difference
+  wire cout;     // Temp wire to hold sum
+  
+  assign B = (Func[3]) ? ~In2 : In2; 	// If the first bit of the Func is 1, invert B i.e. 1xxx -> A, ~B
+  assign {cout, S} = Func[3] + In1 + B; // Two's Compliment (Performs addition/substraction of A,B
   always @ * begin
    case (Func[2:0]) 
     3'b000 : ALUout <= In1 & B; 	// Bitwise AND
