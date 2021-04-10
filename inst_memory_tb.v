@@ -9,4 +9,26 @@ module imem_tb;
 
   //[TODO:] inst_memory testbench
 
+  integer i;
+
+  initial
+    begin
+      assign address = 8'h00000000;
+      #20;
+      assign address = 8'h00000004;
+      #20;
+      assign address = 8'h00000008;
+      #20;
+      assign address = 8'h0000000C;
+      #20;
+      assign address = 8'h00000010;
+      #20;
+      assign address = 8'h00000014;
+      #20;
+      assign address = 8'h00000018;
+      #20;
+      assign address = 8'h0000001C;
+      #20;
+    end
+
 endmodule

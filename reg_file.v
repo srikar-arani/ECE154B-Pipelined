@@ -7,10 +7,14 @@ module regfile(input clk,
 
   reg [31:0] rf[31:0];
 
-  //[TODO:] Synchronous reset
+  
+  // Reset Values
+  assign rd1 = 0;
+  assign rd2 = 0;
 
-  always @(posedge clk) begin
-    if (write) rf[wr] <= wd;
+  always @(posedge clk, posedge reset) begin
+    // Only assign if reset is 0 
+    if (write & !reset) rf[wr] <= wd;
   end
 
   assign rd1 = (pr1 != 0) ? rf[pr1] : 0;
