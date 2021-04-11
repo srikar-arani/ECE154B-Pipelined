@@ -16,7 +16,7 @@ module controller(input   [5:0] op, func,
 
   assign branch = ((op == 6'b000100) || (op == 6'b000101)) ? 1:0; // if BEQ or BNE, branch = 1, else branch = 0
 
-  reg temp; // Hold Register value
+  reg [2:0]temp; // Hold Register value
 
   always @(branch or eq_ne) begin
     if (op == 6'b000010) temp = 2'b10;	    // Jump
@@ -25,6 +25,8 @@ module controller(input   [5:0] op, func,
   end
 
   assign pc_source = temp;
+
+  // [TODO:] Maybe add output_branch signal
 
 endmodule
 
@@ -43,6 +45,7 @@ module maindec(input  [5:0] op, func,
   assign {memwrite, memread, regwrite, alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, out_select, alu_op} = controls;
 
   // [TODO:] INSERT ACTUAL CONTROL SIGNALS
+  // [TODO:] Maybe add output_branch signal
 
   always @ * begin
     case (op)
