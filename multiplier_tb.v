@@ -1,9 +1,9 @@
-module Multiplier_tb;
+module multiplier_tb;
   reg clk, start,is_signed;
   reg [31:0] a,b;
   wire [63:0] s;
 
-  Multiplier multiplier_test(
+  multiplier multiplier_test(
     .a(a),
     .b(b),
     .Clk(clk),
