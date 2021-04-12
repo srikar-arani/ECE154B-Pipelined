@@ -1,4 +1,4 @@
-module regfile(input clk,
+module reg_file(input clk,
 	       input write,
 	       input reset,
 	       input [4:0] pr1, pr2, wr,

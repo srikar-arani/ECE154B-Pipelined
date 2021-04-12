@@ -16,6 +16,41 @@ module regfile_tb;
     .rd2(rd2)
   );
 
-  //[TODO:] reg_file testbench
+  initial begin
+    reset <= 1;
+    #10;
+    reset <= 0;
+    #40;
+    reset <= 1;
+    #10;
+    reset <= 0;
+  end
+
+  always begin
+    clk <= 1;
+    #5;
+    clk <= 0;
+    #5;
+  end
+
+  initial begin
+    write <= 0;
+    #50;
+    write <= 1;
+  end
+
+  integer i;
+
+  initial begin
+    assign pr1 = 5'b00101;
+    assign pr2 = 5'b11111;
+    assign wr = 5'b00101;
+    assign wd = 32'h10101010;
+    for (i = 0; i < 8; i = i+1) begin
+      //assign pr1 = pr1 + 5'b1;
+      assign pr2 = pr2 - 5'b1;
+      #10;
+    end
+  end
 
 endmodule
