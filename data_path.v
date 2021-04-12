@@ -29,7 +29,7 @@ module datapath(input         clk, reset,
   instr[25:0], 2'b00}, jump, pcnext);
 
   // register file logic
-  regfile rf(clk, regwrite, instr[25:21], instr[20:16],
+  reg_file rf(clk, regwrite, instr[25:21], instr[20:16],
   writereg, result, srca, writedata);
   mux2 #(5) wrmux(instr[20:16], instr[15:11],
   regdst, writereg);
