@@ -17,11 +17,11 @@ module alu_tb;
       assign In1 = 0;
       assign In2 = 0;
       assign Func = 0;
-      #20 assign In1 = 32'h0A;
-      assign In2 = 32'h02;
+      #20 assign In1 = 32'h02;
+      assign In2 = 32'h03;
       #20;
 
-      for (i = 0; i < 14; i = i + 1)
+      for (i = 0; i < 15; i = i + 1)
 	begin
 	  assign Func = Func + 8'h01;
 	  #20;
