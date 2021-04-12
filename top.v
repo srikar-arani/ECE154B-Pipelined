@@ -1,4 +1,50 @@
-//[TODO:] Not Sure what else is needed
+module top(input clk, reset);
+
+  wire [31:0] pc, instr, readdata;
+  wire [31:0] writedata, dataadr;
+  wire        memwrite;
+  
+  // processor and memories are instantiated here 
+  mips mips(clk, reset, pc, instr, memwrite, dataadr, writedata, readdata);
+  inst_memory imem(pc, instr);
+  data_memory dmem(clk, memwrite, dataadr, writedata, readdata);
+
+endmodule
+
+
+module mips(input          clk, reset,
+            output  [31:0] pc,
+            input   [31:0] instr,
+            output         memwrite,
+            output  [31:0] aluout, writedata,
+            input   [31:0] readdata);
+
+  wire       memtoreg, branch, bne, pcsrc, eq_ne, alusrcA, alusrcB, se_ze, start_mult, mult_sign, regdst, regwrite, memread, output_branch;
+  wire [1:0] out_select;
+  wire [3:0] alu_op;
+
+  assign eq_ne =  0;
+
+  controller c(instr[31:26], instr[5:0], eq_ne,
+               memwrite, memread, regwrite,
+               alusrcA, alusrcB, se_ze, start_mult, mult_sign, memtoreg, pc_source, out_select,
+               alu_op, output_branch);
+  datapath dp(clk, reset, memread, regwrite,
+              alusrcA, alusrcB,
+              se_ze, regdst,
+	      start_mult, mult_sign,
+	      memtoreg, output_branch,
+	      out_select,
+              alu_op,
+              pc,
+              instr,
+              aluout, writedata,
+              readdata);
+
+endmodule
+
+
+
 
 
 /*************************************

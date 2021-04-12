@@ -1,5 +1,6 @@
-module forwarding_unit();
-
-//[TODO:] Ports and Implementation (Also not sure if this is designed at top level)
+module forwarding_unit(output	    stallF, stallD,
+		       output	    forwardAD, forwardBD,
+		       output	    flushE,
+		       output [1:0] forwardAE, forwardBE);
 
 endmodule

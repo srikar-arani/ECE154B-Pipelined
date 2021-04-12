@@ -1,21 +1,36 @@
-module inst_memory_tb();
-	reg [31:0] address;
-	wire [31:0] read_data;
-	
-	inst_memory imem_test(
-		.address(address),
-		.read_data(read_data)
-	);
+module imem_tb;
+  reg [31:0] address;
+  wire [31:0] read_data;
 
-	integer i;
+  inst_memory imem_test (
+    .address(address),
+    .read_data(read_data)
+  );
 
-	initial begin
-		assign address = 8'h00400000;
-		#10;
-		for (i = 1; i < 10; i = i + 1) begin
-			$display("test#%1d is equal to %h", i, read_data);
-			assign address = address + 8'h00000004;
-			#10;
-		end
-	end
+  //[TODO:] inst_memory testbench
+
+  integer i;
+
+  initial
+    begin
+      assign address = 8'h00000000;
+      #20;
+      assign address = 8'h00000004;
+      #20;
+      assign address = 8'h00000008;
+      #20;
+      assign address = 8'h0000000C;
+      #20;
+      assign address = 8'h00000010;
+      #20;
+      assign address = 8'h00000014;
+      #20;
+      assign address = 8'h00000018;
+      #20;
+      assign address = 8'h0000001C;
+      #20;
+      assign address = 8'h00000020;
+      #20;
+    end
+
 endmodule

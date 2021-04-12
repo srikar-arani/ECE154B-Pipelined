@@ -12,7 +12,7 @@ module controller(input   [5:0] op, func,
 
   wire branch;
 
-  maindec md(op, func, memwrite, memread, regwrite, alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, out_select, alu_op); // Generate Control Signals
+  maindec md(op, func, memwrite, memread, regwrite, alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, out_select, alu_op, output_branch); // Generate Control Signals
 
   assign branch = ((op == 6'b000100) || (op == 6'b000101)) ? 1:0; // if BEQ or BNE, branch = 1, else branch = 0
 
@@ -26,8 +26,6 @@ module controller(input   [5:0] op, func,
 
   assign pc_source = temp;
 
-  // [TODO:] Maybe add output_branch signal
-
 endmodule
 
 module maindec(input  [5:0] op, func,
@@ -38,46 +36,45 @@ module maindec(input  [5:0] op, func,
                output	    start_mult, mult_sign,
 	       output	    memtoreg,
                output [1:0] out_select,
-	       output [3:0] alu_op);
+	       output [3:0] alu_op,
+	       output output_branch);
 
-  reg [15:0] controls;
+  reg [16:0] controls;
 
-  assign {memwrite, memread, regwrite, alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, out_select, alu_op} = controls;
-
-  // [TODO:] Maybe add output_branch signal
+  assign {memwrite, memread, regwrite, alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, out_select, alu_op, output_branch} = controls;
 
   always @ * begin
     case (op)
-      6'b001000: controls <= 16'b0010100000000010; // ADDI
-      6'b001001: controls <= 16'b0010100000000010; // ADDIU
-      6'b001100: controls <= 16'b0010110000000000; // ANDI
-      6'b001101: controls <= 16'b0010110000000001; // ORI
-      6'b001110: controls <= 16'b0010110000000100; // XORI
-      6'b001010: controls <= 16'b0010100000001011; // SLTI
-      6'b001011: controls <= 16'b0010100000001011; // SLTIU
-      6'b100011: controls <= 16'b0010100001000010; // LW
-      6'b101011: controls <= 16'b1000100000000010; // SW
-      6'b001111: controls <= 16'b0010000000010000; // LUI
-      6'b000010: controls <= 16'b0000000000000000; // J
-      6'b000101: controls <= 16'b0000000000001010; // BNE
-      6'b000100: controls <= 16'b0000000000001010; // BEQ
+      6'b001000: controls <= 17'b00101000000000100; // ADDI
+      6'b001001: controls <= 17'b00101000000000100; // ADDIU
+      6'b001100: controls <= 17'b00101100000000000; // ANDI
+      6'b001101: controls <= 17'b00101100000000010; // ORI
+      6'b001110: controls <= 17'b00101100000001000; // XORI
+      6'b001010: controls <= 17'b00101000000010110; // SLTI
+      6'b001011: controls <= 17'b00101000000010110; // SLTIU
+      6'b100011: controls <= 17'b00101000010000100; // LW
+      6'b101011: controls <= 17'b10001000000000100; // SW
+      6'b001111: controls <= 17'b00100000000100000; // LUI
+      6'b000010: controls <= 17'b00000000000000000; // J
+      6'b000101: controls <= 17'b00000000000010101; // BNE
+      6'b000100: controls <= 17'b00000000000010101; // BEQ
       6'b000000: case(func)                        // RTYPE
-	6'b100000: controls <= 16'b0010001000000010; // ADD
-	6'b100001: controls <= 16'b0010001000000010; // ADDU
-	6'b100010: controls <= 16'b0010001000001010; // SUB
-	6'b100011: controls <= 16'b0010001000001010; // SUBU
-	6'b100100: controls <= 16'b0010001000000000; // AND
-	6'b100101: controls <= 16'b0010001000000001; // OR
-	6'b100110: controls <= 16'b0010001000000100; // XOR
-	6'b011111: controls <= 16'b0010001000000101; // XNOR Use available opcode 011111
-	6'b101010: controls <= 16'b0010001000001011; // SLT
-	6'b101001: controls <= 16'b0010001000001011; // SLTU
-	6'b011000: controls <= 16'b0000000110000000; // MULT
-	6'b011001: controls <= 16'b0000000100000000; // MULTU
-	6'b010000: controls <= 16'b0010001000100000; // MFHI
-	6'b010010: controls <= 16'b0010001000110000; // MFLO
+	6'b100000: controls <= 17'b00100010000000100; // ADD
+	6'b100001: controls <= 17'b00100010000000100; // ADDU
+	6'b100010: controls <= 17'b00100010000010100; // SUB
+	6'b100011: controls <= 17'b00100010000010100; // SUBU
+	6'b100100: controls <= 17'b00100010000000000; // AND
+	6'b100101: controls <= 17'b00100010000000010; // OR
+	6'b100110: controls <= 17'b00100010000001000; // XOR
+	6'b011111: controls <= 17'b00100010000001010; // XNOR Use available opcode 011111
+	6'b101010: controls <= 17'b00100010000010110; // SLT
+	6'b101001: controls <= 17'b00100010000010110; // SLTU
+	6'b011000: controls <= 17'b00000001100000000; // MULT
+	6'b011001: controls <= 17'b00000001000000000; // MULTU
+	6'b010000: controls <= 17'b00100010001000000; // MFHI
+	6'b010010: controls <= 17'b00100010001100000; // MFLO
       endcase
-      default: controls <= 16'bxxxxxxxxxxxxxxxx;     // illegal op
+      default: controls <= 17'bxxxxxxxxxxxxxxxxx;     // illegal op
     endcase
   end
 

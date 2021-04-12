@@ -1,15 +1,15 @@
-module datapath(input          clk, reset,
-                input          memtoreg, pcsrc,
-                input          alusrc, regdst,
-                input          regwrite, jump, ori,
-                input   [2:0]  alucontrol,
-                output         zero,
-                output  [31:0] pc,
-                input   [31:0] instr,
-                output  [31:0] aluout, writedata,
-                input   [31:0] readdata);
-
-  //[TODO:] Not sure about the port situation here. I tried to just add some skeleton stuff here
+module datapath(input         clk, reset,
+                input         memread, regwrite,
+                input         alusrcA, alusrcB,
+                input         se_ze, regdst,
+		input	      start_mult, mult_sign,
+		input	      memtoreg, output_branch,
+		input  [1:0]  out_select,
+                input  [3:0]  alu_op,
+                output [31:0] pc,
+                input  [31:0] instr,
+                output [31:0] aluout, writedata,
+                input  [31:0] readdata);
 
   wire [4:0] writereg;
   wire [31:0] pcnext, pcnextbr, pcplus4, pcbranch;
@@ -40,6 +40,6 @@ module datapath(input          clk, reset,
   // ALU logic
   mux2 #(32) srcbmuxmux(signimm, zeroimm, ori, presrcb);
   mux2 #(32) srcbmux(writedata, presrcb, alusrc, srcb);
-  ALU alu(srca, srcb, alucontrol, aluout, zero);
+  ALU alu(srca, srcb, alucontrol, aluout);
 
 endmodule
