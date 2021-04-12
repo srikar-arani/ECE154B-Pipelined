@@ -47,7 +47,7 @@ module regfile_tb;
     assign wr = 5'b00101;
     assign wd = 32'h10101010;
     for (i = 0; i < 8; i = i+1) begin
-      //assign pr1 = pr1 + 5'b1;
+      assign pr1 = pr1 + 5'b1;
       assign pr2 = pr2 - 5'b1;
       #10;
     end
