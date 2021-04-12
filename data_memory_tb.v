@@ -11,6 +11,30 @@ module dmem_tb;
     .read_data(read_data)
   );
 
-  //[TODO:] data_memory testbench
+  initial begin
+    write <= 0;
+    #50;
+    write <= 1;
+  end
+
+  always begin
+    clk <= 1;
+    #5;
+    clk <= 0;
+    #5;
+  end
+
+  reg [31:0] RAM[63:0];
+
+  initial begin
+    $readmemh("memfile.dat",RAM);
+  end
+
+  always begin
+    address <= 31'h00000004;
+    #10;
+    address <= 31'h00000008;
+    #10;
+  end
 
 endmodule
