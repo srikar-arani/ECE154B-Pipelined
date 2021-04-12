@@ -8,6 +8,6 @@ module inst_memory(input [31:0]  address,
       $readmemh("memfile.dat",RAM); // initialize memory with test program
     end
 
-  assign read_data = RAM[address[31:2]]; // word aligned
+            assign read_data = RAM[address[7:2]]; // word aligned
 
 endmodule
