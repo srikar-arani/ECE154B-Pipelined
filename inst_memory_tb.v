@@ -29,6 +29,8 @@ module imem_tb;
       #20;
       assign address = 8'h0000001C;
       #20;
+      assign address = 8'h00000020;
+      #20;
     end
 
 endmodule
