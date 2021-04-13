@@ -23,8 +23,6 @@ module mips(input          clk, reset,
   wire [1:0] out_select;
   wire [3:0] alu_op;
 
-  assign eq_ne =  0;
-
   controller c(instr[31:26], instr[5:0], eq_ne,
                memwrite, memread, regwrite,
                alusrcA, alusrcB, se_ze, start_mult, mult_sign, memtoreg, pc_source, out_select,
@@ -39,7 +37,7 @@ module mips(input          clk, reset,
               pc,
               instr,
               aluout, writedata,
-              readdata);
+              readdata, eq_ne);
 
 endmodule
 
