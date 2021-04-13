@@ -104,7 +104,8 @@ module flopre #(parameter WIDTH = 8)
 	       output reg[WIDTH-1:0] q);
 
   always @(posedge clk or posedge reset) begin
-    if (reset) q <= 1'b0;    else if (enable) q <= d;
+    if (reset) q <= 1'b0;
+    else if (enable) q <= d;
   end
 
 endmodule
@@ -131,7 +132,8 @@ module flopr2 #(parameter WIDTH = 8)
     if (reset) begin
       q0 <= 0;
       q1 <= 0;
-    end    else begin
+    end
+    else begin
       q0 <= d0;
       q1 <= d1;
     end
@@ -149,7 +151,8 @@ module flopfd #(parameter WIDTH = 8)
     if (reset) begin
       q0 <= 0;
       q1 <= 0;
-    end    else if (~enable) begin
+    end
+    else if (~enable) begin
       q0 <= d0;
       q1 <= d1;
     end
@@ -179,7 +182,8 @@ module flopde #(parameter WIDTH = 8)
       q3 <= 0;
       q4 <= 0;
       q5 <= 0;
-    end    else begin
+    end
+    else begin
       q0 <= d0;
       q1 <= d1;
       q2 <= d2;
@@ -255,7 +259,7 @@ endmodule
 //3:1 MUX
 module mux3 #(parameter WIDTH = 8)
 	     (input [WIDTH-1:0] d0, d1, d2,
-	      input s,
+	      input [1:0] s,
 	      output reg [WIDTH-1:0] y);
 
   always @(s or d0 or d1 or d2) begin
@@ -269,7 +273,7 @@ endmodule
 //4:1 MUX
 module mux4 #(parameter WIDTH = 8)
 	     (input [WIDTH-1:0] d0, d1, d2, d3,
-	      input s,
+	      input [1:0] s,
 	      output reg [WIDTH-1:0] y);
 
   always @(s or d0 or d1 or d2 or d3) begin
