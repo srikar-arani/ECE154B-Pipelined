@@ -17,12 +17,12 @@ module datapath(input         clk, reset,
   wire [31:0] signimmD, signimmshD, signimmE;
   wire [31:0] zeroimmD, se_zeoutD, se_zeoutE, se_zeshE;
   wire [31:0] rd1, rd2, rd1E, rd2E, srcaE, writedataE, srcbE, multhi, multlo, multhighE, multlowE;
-  wire [31:0] result, aluoutE, out_selectresultE, aluoutW, readdataW;
+  wire [31:0] resultW, aluoutE, out_selectresultE, aluoutW, readdataW;
   wire memwriteE, regwriteE, alusrcBE, regdstE, start_multE, mult_signE, memtoregE;
   wire [1:0] out_selectE;
   wire [3:0] alu_opE;
   wire [63:0] multE;
-  wire [32:0] equalAD, equalBD;
+  wire [31:0] equalAD, equalBD;
 
 
  hazard_detector hazards(RsD, RtD, RsE, RtE,
@@ -52,7 +52,8 @@ module datapath(input         clk, reset,
   flope #(32) pcreg(clk, ~stallF, pcnext, pcF);
   adder pcadd1(pcF, 32'b100, pcplus4F);
   sl2 immsh(signimmD, signimmshD);
-  adder pcadd2(pcplus4, signimmshD, pcbranchD);
+  // double check if the pcplus4 on line below is D or F
+  adder pcadd2(pcplus4F, signimmshD, pcbranchD);
   mux2 #(32) pcbrmux(pcplus4F, pcbranchD, pc_sourceD, pcnext);
   flopfd #(32) fetch_decode(clk, pc_sourceD, ~stallD, instr, pcplus4F, instrD, pcplus4D);
 
@@ -78,14 +79,16 @@ module datapath(input         clk, reset,
   mux3 #(32) forwardmuxA(rd1E, resultW, aluoutM,forwardAE,srcaE);
   mux3 #(32) forwardmuxB(rd2E, resultW, aluoutM,forwardBE,writedataE);
   mux2 #(32) srcbmux(writedataE, se_zeoutE, alusrcBE, srcbE);
-  ALU alu(srcaE, srcbE, alu_op, aluoutE);
+  //double check that the alu_opE is actually E and not D
+  ALU alu(srcaE, srcbE, alu_opE, aluoutE);
 
   multiplier multi(rd1E, rd2E, clk, start_multE, mult_signE, multE);
   assign multhi = multE[63:32];
   assign multlo = multE[31:0];
-  flopr #(32) multhigh (clk, 0, multhi,multhighE);
-  flopr #(32) multlow (clk, 0, multlo,multlowE);
-  mux4 #(32) out_selectmux(aluoutE, se_zeshE, multhighE, multlowE, out_select, out_selectresultE);
+  flopr #(32) multhigh (clk, 1'b0, multhi,multhighE);
+  flopr #(32) multlow (clk, 1'b0, multlo,multlowE);
+  //double check that the outselectE used below is actually E and not D
+  mux4 #(32) out_selectmux(aluoutE, se_zeshE, multhighE, multlowE, out_selectE, out_selectresultE);
 
   flopem #(32) execute_memory(clk, memwriteE, regwriteE, memtoregE,
 	       out_selectresultE, writedataE,
