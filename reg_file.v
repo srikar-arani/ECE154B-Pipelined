@@ -9,7 +9,7 @@ module reg_file(input clk,
 
   integer i;
 
-  always @(posedge clk) begin
+  always @(posedge ~clk) begin
     if (reset) begin
       for (i = 0; i < 31; i=i+1) rf[i] = 0;
     end
