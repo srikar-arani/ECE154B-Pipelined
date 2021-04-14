@@ -1,4 +1,4 @@
-module imem_tb;
+module inst_memory_tb();
   reg [31:0] address;
   wire [31:0] read_data;
 

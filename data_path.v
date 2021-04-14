@@ -1,4 +1,4 @@
-module datapath(input         clk, reset,
+module data_path(input         clk, reset,
                 input         memreadD, regwriteD, memwriteD,
                 input         alusrcAD, alusrcBD,
                 input         se_zeD, regdstD,
@@ -115,3 +115,4 @@ module datapath(input         clk, reset,
   mux2 #(32) memtoregmux(aluoutW, readdataW, memtoregW, resultW);
 
 endmodule
+

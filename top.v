@@ -22,14 +22,15 @@ module mips(input          clk, reset,
   wire       memtoreg, branch, bne, eq_ne, alusrcA, alusrcB, se_ze, start_mult, mult_sign, regdst, regwrite, memread, output_branch;
   wire [1:0] out_select, pc_source;
   wire [3:0] alu_op;
+  
 
-  assign eq_ne =  0;
+  //assign eq_ne =  0;
 
   controller c(instr[31:26], instr[5:0], eq_ne,
                memwrite, memread, regwrite,
                alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, pc_source, out_select,
                alu_op, output_branch);
-  datapath dp(clk, reset, memread, regwrite, memwrite,
+  data_path dp(clk, reset, memread, regwrite, memwrite,
               alusrcA, alusrcB,
               se_ze, regdst,
 	      start_mult, mult_sign,

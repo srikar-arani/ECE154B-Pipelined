@@ -1,5 +1,7 @@
 
 //[TODO:] This is the final testbench not sure what to do here. Again ports are wonky
+
+
 module data_path_tb();
 
 	reg clk_sim, reset_sim;
@@ -17,7 +19,7 @@ module data_path_tb();
 	reg [31:0] readdata_sim;
 	wire eq_ne_sim;
 
-	datapath test(
+	data_path test(
 		.clk(clk_sim),
 		.reset(reset_sim),
 		.memreadD(memreadD_sim),
@@ -26,7 +28,7 @@ module data_path_tb();
 		.alusrcAD(alusrcAD_sim),
 		.alusrcBD(alusrcBD_sim),
 		.se_zeD(se_zeD_sim),
-		.regdstD(regdst_sim),
+		.regdstD(regdstD_sim),
 		.start_multD(start_multD_sim),
 		.mult_signD(mult_signD_sim),
 		.memtoregD(memtoregD_sim),

@@ -1,5 +1,6 @@
 module hazard_detector(input  [4:0] RsD, RtD, RsE, RtE,
-		       input  [4:0] writeregE, writeregM, writeregW,		       input        memtoregE, memtoregM,
+		       input  [4:0] writeregE, writeregM, writeregW,
+		       input        memtoregE, memtoregM,
 		       input        regwriteE, regwriteM, regwriteW,
 		       input        start_mult,
 		       input  [1:0] pc_source,
@@ -33,7 +34,7 @@ module hazard_detector(input  [4:0] RsD, RtD, RsE, RtE,
   assign lwstall = ((RsD == RtE) || (RtD == RtE)) && memtoregE;
   assign branchstall = (branchD && regwriteE && ((writeregE == RsD) || (writeregE == RtD))) || (branchD && memtoregM && ((writeregM == RsD) || (writeregM == RtD)));
   assign FlushE = (lwstall | branchstall | start_mult | jumpD);
-  assign StallD = FlushE;
+  assign stallD = FlushE;
   assign stallF = stallD;
 
   assign forwardAD = (RsD != 0) && (RsD == writeregM) && regwriteM;
