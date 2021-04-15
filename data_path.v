@@ -50,6 +50,7 @@ module data_path(input         clk, reset,
                           );
 
 
+
   // branch forwarding
   mux2 #(32) branchA(rd1E, aluoutM, forwardAD,equalAD);
   mux2 #(32) branchB(rd2E, aluoutM, forwardBD,equalBD);
