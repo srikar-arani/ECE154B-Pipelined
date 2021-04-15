@@ -89,14 +89,14 @@ module datapath(input         clk, reset,
   flopr #(32) multlow (clk, 1'b0, multlo,multlowE);
   //double check that the outselectE used below is actually E and not D
   mux4 #(32) out_selectmux(aluoutE, se_zeshE, multhighE, multlowE, out_selectE, out_selectresultE);
-
+  //Execute to Memory
   flopem #(32) execute_memory(clk, memwriteE, regwriteE, memtoregE,
 	       out_selectresultE, writedataE,
 	       writeregE,
 	       aluoutM, writedataM,
 	       writeregM,
 	       memwriteM, regwriteM, memtoregM);
-
+  //Memory to Writeback
   flopmw #(32) memory_writeback(clk, regwriteM, memtoregM,
 	       readdata, aluoutM,
 	       writeregM,
