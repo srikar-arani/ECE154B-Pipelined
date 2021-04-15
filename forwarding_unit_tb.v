@@ -1,4 +1,4 @@
-module forwarding_unit_tb();
+module forwwarding_unit_tb;
 
   //[TODO:] Forwarding Unit Testbench
 

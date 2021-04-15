@@ -1,4 +1,4 @@
-module data_memory_tb();
+module dmem_tb;
   reg [31:0] address,write_data;
   reg clk,write;
   wire [31:0] read_data;

@@ -22,15 +22,14 @@ module mips(input          clk, reset,
   wire       memtoreg, branch, bne, eq_ne, alusrcA, alusrcB, se_ze, start_mult, mult_sign, regdst, regwrite, memread, output_branch;
   wire [1:0] out_select, pc_source;
   wire [3:0] alu_op;
-  
 
-  //assign eq_ne =  0;
+  assign eq_ne =  0;
 
   controller c(instr[31:26], instr[5:0], eq_ne,
                memwrite, memread, regwrite,
                alusrcA, alusrcB, se_ze, regdst, start_mult, mult_sign, memtoreg, pc_source, out_select,
                alu_op, output_branch);
-  data_path dp(clk, reset, memread, regwrite, memwrite,
+  datapath dp(clk, reset, memread, regwrite, memwrite,
               alusrcA, alusrcB,
               se_ze, regdst,
 	      start_mult, mult_sign,
@@ -179,10 +178,6 @@ module flopde #(parameter WIDTH = 8)
 	       output [1:0] out_selectE,
 	       output [3:0] alu_opE);
 
-  reg memwrite_E, regwrite_E, alusrcB_E, regdst_E, start_mult_E, mult_sign_E, memtoreg_E;
-  reg [1:0] out_select_E;
-  reg [3:0] alu_op_E;
-
   always @(posedge clk, posedge reset) begin
    
     if (reset) begin
@@ -194,15 +189,6 @@ module flopde #(parameter WIDTH = 8)
       q5 <= 0;
     end
     else begin
-      memwrite_E <= memwriteD;
-      regwrite_E <= regwriteD;
-      alusrcB_E <= alusrcBD;
-      regdst_E <= regdstD;
-      start_mult_E <= start_multD;
-      mult_sign_E <= mult_signD;
-      memtoreg_E <= memtoregD;
-      out_select_E <= out_selectD;
-      alu_op_E <= alu_opD;
       q0 <= d0;
       q1 <= d1;
       q2 <= d2;
@@ -211,16 +197,16 @@ module flopde #(parameter WIDTH = 8)
       q5 <= d5;
     end
   end
-  
-  assign memwriteE = memwrite_E;
-  assign regwriteE = regwrite_E;
-  assign alusrcBE = alusrcB_E;
-  assign regdstE = regdst_E;
-  assign start_multE = start_mult_E;
-  assign mult_signE = mult_sign_E;
-  assign memtoregE = memtoreg_E;
-  assign out_selectE = out_select_E;
-  assign alu_opE = alu_op_E;
+
+  assign memwriteE = memwriteD;
+  assign regwriteE = regwriteD;
+  assign alusrcBE = alusrcBD;
+  assign regdstE = regdstD;
+  assign start_multE = start_multD;
+  assign mult_signE = mult_signD;
+  assign memtoregE = memtoregD;
+  assign out_selectE = out_selectD;
+  assign alu_opE = alu_opD;
 
 endmodule
 
@@ -232,21 +218,16 @@ module flopem #(parameter WIDTH = 8)
 	       output reg[WIDTH-1:0] q0, q1,
 	       output reg[4:0] q2,
 	       output memwriteM, regwriteM, memtoregM);
-	       
-  reg memwrite_M, regwrite_M, memtoreg_M;
 
   always @(posedge clk) begin
-    memwrite_M <= memwriteE;
-    regwrite_M <= regwriteE;
-    memtoreg_M <= memtoregE;
     q0 <= d0;
     q1 <= d1;
     q2 <= d2;
   end
 
-  assign memwriteM = memwrite_M;
-  assign regwriteM = regwrite_M;
-  assign memtoregM = memtoreg_M;
+  assign memwriteM = memwriteE;
+  assign regwriteM = regwriteE;
+  assign memtoregM = memtoregE;
 
 endmodule
 
@@ -258,19 +239,15 @@ module flopmw #(parameter WIDTH = 8)
 	       output reg[WIDTH-1:0] q0, q1,
 	       output reg[4:0] q2,
 	       output regwriteW, memtoregW);
-	       
-  reg regwrite_W, memtoreg_W;
 
   always @(posedge clk) begin
-    regwrite_W <= regwriteM;
-    memtoreg_W <= memtoregM;
     q0 <= d0;
     q1 <= d1;
     q2 <= d2;
   end
 
-  assign regwriteW = regwrite_W;
-  assign memtoregW = memtoreg_W;
+  assign regwriteW = regwriteM;
+  assign memtoregW = memtoregM;
 
 endmodule
 
